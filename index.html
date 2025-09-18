@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monitoreo en Cavernas</title>
+  <meta name="theme-color" content="#005833">
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+  <link rel="icon" href="/icons/icon-192x192.png" type="image/png">
+  <script src="https://cdn.tailwindcss.com"></script>
+<script>
+  // Configuración de Tailwind CSS con colores institucionales
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          'verde-institucional': '#005833',
+          'amarillo-mineral': '#D7A53C',
+          'gris-oscuro': '#3D3D3D',
+          'gris-claro': '#DFDFDF',
+        }
+      }
+    }
+  }
+
+  // Evita el FOUC (Flash of Unstyled Content) para el modo oscuro
+  // Arranca en modo oscuro por defecto si no hay una preferencia guardada.
+  if (localStorage.theme === 'light') {
+    document.documentElement.classList.remove('dark');
+  } else {
+    document.documentElement.classList.add('dark');
+  }
+</script>
+<style>
+  /* Transición suave para el cambio de tema */
+  body, .bg-white, .bg-gris-claro, .dark .dark\:bg-zinc-900, .dark .dark\:bg-gris-oscuro {
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+</style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="module" src="index.tsx"></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(error => {
+            console.log('ServiceWorker registration failed: ', error);
+          });
+      });
+    }
+  </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
